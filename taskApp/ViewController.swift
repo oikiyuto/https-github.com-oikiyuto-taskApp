@@ -12,7 +12,8 @@ import UserNotifications
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
-    @IBOutlet weak var searchBar: UITableView!
+    @IBOutlet weak var searchCategoryBar: UISearchBar!
+    
     
         @IBOutlet weak var tableView: UITableView!
         let realm = try! Realm()
@@ -26,13 +27,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
-
+        
+        searchCategoryBar.delegate = self
+        searchCategoryBar.showsCancelButton = false
+        //プレースホルダの指定
+        searchCategoryBar.placeholder = "Search Bar"
+        
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+     print("検索中")
+    }
+    
+    
     
     @objc func dismissKeyboard(){
         // キーボードを閉じる
         view.endEditing(true)
     }
+    
+    
     
     
     

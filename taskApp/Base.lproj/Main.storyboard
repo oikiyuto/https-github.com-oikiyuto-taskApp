@@ -21,7 +21,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="drs-L7-yav">
                                 <rect key="frame" x="0.0" y="63" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="87w-g2-hHF">
+                                <searchBar key="tableHeaderView" contentMode="redraw" showsSearchResultsButton="YES" id="87w-g2-hHF">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
@@ -71,7 +71,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchBar" destination="drs-L7-yav" id="cS9-cH-a39"/>
+                        <outlet property="searchCategoryBar" destination="87w-g2-hHF" id="eA5-cG-bas"/>
                         <outlet property="tableView" destination="drs-L7-yav" id="r3I-Oh-XPO"/>
                         <segue destination="I79-v5-Ngd" kind="show" identifier="cellSegue" id="cmj-NU-Oh9"/>
                     </connections>
