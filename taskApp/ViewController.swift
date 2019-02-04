@@ -35,10 +35,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-     print("検索中")
+        
+        taskArray = try! Realm().objects(Task.self).filter("category == %@", searchCategoryBar.text!)
+     
+        tableView.reloadData()
+        
     }
     
+
     
     
     @objc func dismissKeyboard(){
