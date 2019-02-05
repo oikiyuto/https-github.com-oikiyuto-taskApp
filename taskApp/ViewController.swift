@@ -15,8 +15,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var searchCategoryBar: UISearchBar!
     
     
-        @IBOutlet weak var tableView: UITableView!
-        let realm = try! Realm()
+    @IBOutlet weak var tableView: UITableView!
+    let realm = try! Realm()
     var taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date",ascending: false)
     
     
@@ -25,9 +25,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.delegate = self
         tableView.dataSource = self
         
-        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
-        self.view.addGestureRecognizer(tapGesture)
-        
         searchCategoryBar.delegate = self
         searchCategoryBar.showsCancelButton = false
         //プレースホルダの指定
@@ -35,16 +32,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        taskArray = try! Realm().objects(Task.self).filter("category == %@", searchCategoryBar.text!)
-     
-        tableView.reloadData()
+        if searchCategoryBar.text == ""{
+            taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date",ascending: false)
+            
+            tableView.reloadData()
+        }else{
+            
         
+        taskArray = try! Realm().objects(Task.self).filter("category == %@", searchCategoryBar.text!)
+        
+        tableView.reloadData()
+        }
     }
     
-
+    
     
     
     @objc func dismissKeyboard(){
@@ -72,11 +76,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let dateString:String = formatter.string(from: task.date)
         cell.detailTextLabel?.text = dateString
-
-
-
-
-
+        
+        
+        
+        
+        
         return cell
     }
     
@@ -84,7 +88,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "cellSegue", sender: nil)
     }
-
+    
     
     // セルが削除が可能なことを伝えるメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)-> UITableViewCell.EditingStyle {
@@ -93,21 +97,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        
         if editingStyle == .delete {
             
             let task = self.taskArray[indexPath.row]
             
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [String(task.id)])
-
-
+            
+            
             try! realm.write {
                 self.realm.delete(self.taskArray[indexPath.row])
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
             
-
+            
             center.getPendingNotificationRequests { (requests: [UNNotificationRequest]) in
                 for request in requests {
                     print("/---------------")
@@ -116,9 +120,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
             }
         }
-    
         
-}
+        
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         let inputViewController:InputViewController = segue.destination as! InputViewController

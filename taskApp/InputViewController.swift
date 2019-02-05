@@ -33,7 +33,7 @@ class InputViewController: UIViewController {
             self.realm.add(self.task, update: true)
         }
         
-    
+       setNotification(task:  task)
         
         super.viewWillDisappear(animated)
     }
@@ -57,7 +57,7 @@ class InputViewController: UIViewController {
             content.body = task.contents
         }
         content.sound = UNNotificationSound.default
- 
+        
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: task.date)
         let trigger = UNCalendarNotificationTrigger.init(dateMatching: dateComponents, repeats: false)
@@ -68,7 +68,7 @@ class InputViewController: UIViewController {
         // ローカル通知を登録
         let center = UNUserNotificationCenter.current()
         center.add(request) { (error) in
-            print(error ?? "ローカル通知登録 OK")  // error が nil ならローカル通知の登録に成功したと表示します。errorが存在すればerrorを表示します。
+            print(error ?? "ローカル通知登録 OK") 
         }
         
         // 未通知のローカル通知一覧をログ出力
@@ -79,5 +79,5 @@ class InputViewController: UIViewController {
                 print("---------------/")
             }
         }
-}
+    }
 }
